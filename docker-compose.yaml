@@ -1,5 +1,6 @@
 services:
   mongodb:
+    container_name: mongodb_container
     image: mongo:latest
     restart: always
     ports:
@@ -7,8 +8,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: donothackmeagain
+      MONGO_INITDB_DATABASE: cleaningbiz
     volumes:
       - mongodb_data:/data/db
-
-volumes:
-  mongodb_data:
