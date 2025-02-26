@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: donothackmeagain
       MONGO_INITDB_DATABASE: cleaningbiz
     volumes:
-      - mongodb_data:/data/db
-
+      - ./docker-volumes/data:/data/db
+      - ./cleaningbiz-init:/docker-entrypoint-initdb.d
 volumes:
   mongodb_data:
