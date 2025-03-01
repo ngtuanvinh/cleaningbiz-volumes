@@ -18,22 +18,30 @@ jobs:
           VPS_USER: ${{ secrets.SSH_USER }}
           VPS_IP: ${{ secrets.SSH_HOST }}
         run: |
-          # Prepare SSH Key
           echo "$SSH_PRIVATE_KEY" > deploy_key
           chmod 600 deploy_key
 
           # SSH and deploy
-          ssh -i deploy_key -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << EOF
+          ssh -i deploy_key -o StrictHostKeyChecking=no $VPS_USER@$VPS_IP << 'EOF'
             set -e
             echo "✅ Connected to VPS"
 
-          # Load the variable 
-            export $(cat ~/cleaningbiz.env | xargs)
+            # Load environment variables
+            if [ -f ~/cleaningbiz.env ]; then
+              echo "🔍 Loading environment variables from ~/cleaningbiz.env"
+              source ~/cleaningbiz.env
+            else
+              echo "❌ Environment file not found!"
+              exit 1
+            fi
 
-          # Navigate to volumes folder
+            # Navigate to volumes folder
             cd ~/cleaningbiz/cleaningbiz-volumes
             git reset --hard
             git pull origin main
 
-          # Restart containers
-            source ~/cleaningbiz.env && docker-compose up -d
+            # Restart containers with loaded variables
+            docker-compose up -d
+
+            echo "🚀 Deployment completed!"
+          EOF
