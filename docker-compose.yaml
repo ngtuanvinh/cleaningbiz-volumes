@@ -1,24 +1,10 @@
 services:
-  mongodb:
-    container_name: mongodb_container
-    image: mongo:latest
-    restart: always
-    ports:
-      - "127.0.0.1:27017:27017"
-    environment:
-      MONGO_INITDB_DATABASE: cleaningbiz
-    volumes:
-      - ./docker-volumes/data:/data/db
-      - ./cleaningbiz-init:/docker-entrypoint-initdb.d
-    networks:
-      - cleaningbiz-network
-
   cleaningbiz-server:
     image: vinh2105/cleaningbiz-server:v0
     container_name: cleaningbiz-server-prod
     restart: always
     ports:
-      - "4001:4001"
+      - "127.0.0.1:4001:4001"
     env_file:
       - ../cleaningbiz-server/.env
     depends_on:
@@ -31,11 +17,25 @@ services:
     container_name: cleaningbiz-client-prod
     restart: always
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     env_file:
       - ../cleaningbiz-client/.env
     depends_on:
       - cleaningbiz-server
+    networks:
+      - cleaningbiz-network
+
+  mongodb:
+    container_name: mongodb_container
+    image: mongo:latest
+    restart: always
+    ports:
+      - "127.0.0.1:27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: cleaningbiz
+    volumes:
+      - ./docker-volumes/data:/data/db
+      - ./cleaningbiz-init:/docker-entrypoint-initdb.d
     networks:
       - cleaningbiz-network
 
