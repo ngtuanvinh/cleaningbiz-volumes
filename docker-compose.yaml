@@ -4,7 +4,7 @@ services:
     container_name: cleaningbiz-server-prod
     restart: always
     ports:
-      - "127.0.0.1:4001:4001"
+      - "4001:4001"
     env_file:
       - ../cleaningbiz-server/.env
     depends_on:
@@ -17,7 +17,7 @@ services:
     container_name: cleaningbiz-client-prod
     restart: always
     ports:
-      - "127.0.0.1:3000:3000"
+      - "3000:3000"
     env_file:
       - ../cleaningbiz-client/.env
     depends_on:
