@@ -41,7 +41,7 @@ jobs:
             git pull origin main
 
             # Restart containers with loaded variables
-            docker-compose up -d
+            docker compose up -d
 
             echo "🚀 Deployment completed!"
           EOF
