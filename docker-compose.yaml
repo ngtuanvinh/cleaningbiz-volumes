@@ -14,7 +14,7 @@ services:
       - cleaningbiz-network
 
   cleaningbiz-server:
-    image: vinh2105/cleaningbiz-server:v0
+    image: vinh2105/cleaningbiz-server
     container_name: cleaningbiz-server-prod
     restart: always
     ports:
@@ -27,7 +27,7 @@ services:
       - cleaningbiz-network
 
   cleaningbiz-client:
-    image: vinh2105/cleaningbiz-client:v0
+    image: vinh2105/cleaningbiz-client
     container_name: cleaningbiz-client-prod
     restart: always
     ports:
