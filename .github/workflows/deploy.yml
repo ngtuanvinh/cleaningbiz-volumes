@@ -27,10 +27,13 @@ jobs:
             set -e
             echo "✅ Connected to VPS"
 
+          # Load the variable 
+            export $(cat ~/cleaningbiz.env | xargs)
+
           # Navigate to volumes folder
             cd ~/cleaningbiz/cleaningbiz-volumes
             git reset --hard
             git pull origin main
 
           # Restart containers
-            docker-compose up -d
+            source ~/cleaningbiz.env && docker-compose up -d
