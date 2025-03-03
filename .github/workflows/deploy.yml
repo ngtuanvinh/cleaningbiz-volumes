@@ -38,13 +38,15 @@ jobs:
             # Navigate to volumes folder
             cd ~/cleaningbiz/cleaningbiz-volumes
 
+            if [ ! -d ./docker-volumes/log ]; then
+              echo "📂 Creating missing ./docker-volumes/log directory"
+              sudo mkdir -p ./docker-volumes/log
+            fi
+
             # Ensure mongod.log exists and has proper permissions
-            if [ ! -f .docker-volumes/log/mongod.log ]; then
-              echo "📂 mongod.log not found. Creating it..."
-              sudo touch .docker-volumes/log/mongod.log
-              sudo chmod 666 .docker-volumes/log/mongod.log
-            else
-              echo "✅ mongod.log already exists."
+            if [ ! -f ./docker-volumes/log/mongod.log ]; then
+              echo "📄 Creating mongod.log file"
+              sudo touch ./docker-volumes/log/mongod.log
             fi
             
             git reset --hard
