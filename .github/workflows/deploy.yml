@@ -37,6 +37,16 @@ jobs:
 
             # Navigate to volumes folder
             cd ~/cleaningbiz/cleaningbiz-volumes
+
+            # Ensure mongod.log exists and has proper permissions
+            if [ ! -f ./log/mongod.log ]; then
+              echo "📂 mongod.log not found. Creating it..."
+              sudo touch ./log/mongod.log
+              sudo chmod 666 ./log/mongod.log
+            else
+              echo "✅ mongod.log already exists."
+            fi
+            
             git reset --hard
             git pull origin main
 
