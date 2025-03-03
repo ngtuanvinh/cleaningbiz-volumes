@@ -39,7 +39,7 @@ services:
     volumes:
       - ./docker-volumes/data:/data/db
       - ./cleaningbiz-init:/docker-entrypoint-initdb.d
-      - ./docker-volumes/log:/var/log/mongodb/mongod.log
+      - ./docker-volumes/log/mongod.log:/var/log/mongodb/mongod.log
     networks:
       - cleaningbiz-network
 
