@@ -73,7 +73,7 @@ jobs:
                   compressext .bz2
                   delaycompress
                   notifempty
-                  create 640 mongodb mongodb
+                  create 640 root root
                   sharedscripts
                   postrotate
                       /bin/kill -SIGUSR1 `cat /var/run/mongodb/mongod.pid 2>/dev/null` >/dev/null 2>&1
