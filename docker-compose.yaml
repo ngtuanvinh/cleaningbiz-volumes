@@ -38,16 +38,20 @@ services:
     command:
       [
         "mongod",
-        "--auth",
+        "-v",
         "--bind_ip",
         "0.0.0.0",
         "--logpath",
         "/var/log/mongodb/mongod.log",
+        "--logrotate",
+        "reopen",
+        "--logappend",
       ]
     volumes:
       - ./docker-volumes/data:/data/db
       - ./cleaningbiz-init:/docker-entrypoint-initdb.d
       - ./docker-volumes/log:/var/log/mongodb
+      - ./docker-volumes/logrotate/mongod.conf:/etc/logrotate.d/mongod.conf
     networks:
       - cleaningbiz-network
 
