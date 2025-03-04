@@ -55,6 +55,7 @@ jobs:
             if [ ! -d ./docker-volumes/logrotate ]; then
               echo "📂 Creating ./docker-volumes/logrotate directory"
               sudo mkdir -p ./docker-volumes/logrotate
+              sudo chmod -R 777 ./docker-volumes/logrotate
             fi
 
             if [ ! -f ./docker-volumes/logrotate/mongod.conf ]; then
