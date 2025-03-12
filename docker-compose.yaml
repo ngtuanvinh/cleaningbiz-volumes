@@ -81,6 +81,8 @@ services:
       - "--collect-all"
       - "--compatible-mode"
       - "--log.level=debug"
+    ports:
+      - "127.0.0.1:9216:9216"
     depends_on:
       - mongodb
     networks:
@@ -94,6 +96,7 @@ services:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
     depends_on:
       - cadvisor
+      - mongodb-exporter
     networks:
       - cleaningbiz-network
 
