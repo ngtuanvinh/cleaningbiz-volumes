@@ -56,48 +56,60 @@ services:
       - cleaningbiz-network
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
-    container_name: cadvisor
-    restart: always
-    ports:
-      - "8080:8080"
+    image: gcr.io/cadvisor/cadvisor:v0.51.0
+    privileged: true
+    devices:
+      - /dev/kmsg
     volumes:
       - /:/rootfs:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+    networks:
+      - cleaningbiz-network
+
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.40
+    container_name: mongodb_exporter
+    restart: always
+    command:
+      - "--mongodb.uri=mongodb://cleaningbizAdmin:donothackmeagain@mongodb:27017/cleaningbiz"
+      - "--collect-all"
+      - "--compatible-mode"
+      - "--log.level=debug"
+    depends_on:
+      - mongodb
     networks:
       - cleaningbiz-network
 
   prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    restart: always
-    ports:
-      - "9090:9090"
+    image: prom/prometheus:v2.55.1
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
     volumes:
-      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-      - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+    depends_on:
+      - cadvisor
     networks:
       - cleaningbiz-network
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:11.3.0-security-01
     container_name: grafana
     restart: always
     ports:
-      - "3001:3001"
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      - grafana-storage:/var/lib/grafana
-    networks:
-      - cleaningbiz-network
-
-  alertmanager:
-    image: prom/alertmanager:latest
-    container_name: alertmanager
-    ports:
-      - "9093:9093"
-    volumes:
-      - ./alertmanager.yaml:/etc/alertmanager/alertmanager.yaml
+      - .docker/monitoring/data:/var/lib/grafana
+    depends_on:
+      - prometheus
     networks:
       - cleaningbiz-network
 

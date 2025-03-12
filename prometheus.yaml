@@ -5,10 +5,7 @@ scrape_configs:
   - job_name: 'docker'
     static_configs:
       - targets: ['cadvisor:8080']
-  - job_name: 'cleaningbiz-server'
-    metrics_path: /health
+  - job_name: 'mongodb'
     static_configs:
-      - targets: ['cleaningbiz-server-prod:4001']
-
-rule_files:
-  - "/etc/prometheus/alert_rules.yaml"      
+      - targets: ['mongodb_exporter:9216']
+    scrape_interval: 15s
