@@ -36,6 +36,7 @@ jobs:
             fi
 
             # Navigate to volumes folder
+            sudo chmod -R 777 ~/cleanbiz/cleangbiz-volumes
             cd ~/cleaningbiz/cleaningbiz-volumes
 
             if [ ! -d ./docker-volumes/log ]; then
@@ -47,7 +48,6 @@ jobs:
             if [ ! -f ./docker-volumes/log/mongod.log ]; then
               echo "📄 Creating mongod.log file"
               sudo touch ./docker-volumes/log/mongod.log
-              sudo chmod -R 777 ./docker-volumes/log
             fi
             
 
@@ -55,7 +55,6 @@ jobs:
             if [ ! -d ./docker-volumes/logrotate ]; then
               echo "📂 Creating ./docker-volumes/logrotate directory"
               sudo mkdir -p ./docker-volumes/logrotate
-              sudo chmod -R 777 ./docker-volumes/logrotate
             fi
 
             if [ ! -f ./docker-volumes/logrotate/mongod.conf ]; then
