@@ -77,7 +77,7 @@ services:
     container_name: mongodb_exporter
     restart: always
     command:
-      - "--mongodb.uri=mongodb://cleaningbizAdmin:donothackmeagain@mongodb:27017/cleaningbiz"
+      - "--mongodb.uri=mongodb://exporterUser:exporterPassword@mongodb:27017/admin"
       - "--collect-all"
       - "--compatible-mode"
       - "--log.level=debug"
